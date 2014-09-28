@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby 
+
+require_relative 'sweetspot.rb'
+
+BASE_URL="/sweetspot/requests"
+
+puts Api.new.get(BASE_URL)

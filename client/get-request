@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby 
+
+require_relative 'sweetspot.rb'
+require 'trollop'
+require 'json'
+
+BASE_URL="/sweetspot/requests"
+
+opts = Trollop::options do
+    opt :id, "Request id", :type => :string
+end
+Trollop::die "--id option is mandatory" if not opts[:id]
+
+
+resp = Api.new.get("#{BASE_URL}/#{opts[:id]}")
+puts puts JSON.pretty_generate(JSON.parse(resp))

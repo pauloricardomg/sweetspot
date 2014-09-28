@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby 
+
+require_relative 'sweetspot.rb'
+require 'trollop'
+require 'json'
+
+HTTP_CREATED=201
+BASE_URL="/sweetspot/requests"
+
+opts = Trollop::options do
+    opt :id, "Request id", :type => :string
+    opt :numInstances, "Number of instances", :type => :int, :default => 1
+    opt :instanceType, "Instance type", :type => :string
+    opt :instanceNamePrefix, "Instance name prefix (default: <id>)", :type => :string 
+    opt :instanceTags, "Instance tags (list of <key> <value> separated by space)", :type => :strings
+end
+Trollop::die "--id option is mandatory" if not opts[:id]
+Trollop::die "--instanceType option is mandatory" if not opts[:instanceType]
+
+body = {
+  :id => opts[:id],
+  :numInstances => opts[:numInstances],
+  :instanceType => opts[:instanceType],
+  :instanceNamePrefix => opts[:instanceNamePrefix].nil? ? opts[:id] : opts[:instanceNamePrefix],
+  :instanceTags => {}
+}
+
+resp = Api.new.post(BASE_URL, body.to_json)
+
+if resp.status == HTTP_CREATED
+    puts "Request succesfully created: #{resp.headers["Location"]}"
+elsif resp.status >= 400
+    puts "ERROR: #{resp.body}"
+end
