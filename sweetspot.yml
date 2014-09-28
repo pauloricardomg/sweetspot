@@ -1,0 +1,13 @@
+aws:
+  access_key: <aws_access_key>
+  secret_key: <aws_secret_key>
+
+chef:
+  endpoint: <chef_endpoint>
+  client: <chef_client>
+  validator: <chef_validator>
+
+max_bids:
+  m1.small: 0.1
+  c1.xlarge: 0.7
+  m1.xlarge: 0.9
