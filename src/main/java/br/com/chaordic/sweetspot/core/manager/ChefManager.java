@@ -1,10 +1,10 @@
 package br.com.chaordic.sweetspot.core.manager;
 
-import java.util.Map;
+import java.util.Properties;
 
 public class ChefManager {
 
-    public ChefManager(Map<String, String> chefConfiguration) {
+    public ChefManager(Properties chefConfiguration) {
         // TODO Auto-generated constructor stub
     }
 

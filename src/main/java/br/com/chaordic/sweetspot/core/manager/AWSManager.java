@@ -1,10 +1,10 @@
 package br.com.chaordic.sweetspot.core.manager;
 
-import java.util.Map;
+import java.util.Properties;
 
 public class AWSManager {
 
-    public AWSManager(Map<String, String> awsConfiguration) {
+    public AWSManager(Properties awsConfiguration) {
         // TODO Auto-generated constructor stub
     }
 

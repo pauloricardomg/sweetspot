@@ -2,41 +2,54 @@ package br.com.chaordic.sweetspot;
 
 import io.dropwizard.Configuration;
 
-import java.util.Map;
+import java.util.HashMap;
+import java.util.Properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SweetSpotConfiguration extends Configuration {
-    @JsonProperty("aws")
-    private Map<String, String> awsConfiguration;
 
-    @JsonProperty("chef")
-    private Map<String, String> chefConfiguration;
+    private Properties awsConfiguration = new Properties();
 
-    @JsonProperty("max_bids")
-    private Map<String, String> maxBids;
+    private Properties chefConfiguration = new Properties();
 
-    public Map<String, String> getAwsConfiguration() {
+    private Properties maxBids = new Properties();
+
+    private Properties executorsConfiguration = new Properties();
+
+    public Properties getAwsConfiguration() {
         return awsConfiguration;
     }
 
-    public void setAwsConfiguration(Map<String, String> awsConfiguration) {
-        this.awsConfiguration = awsConfiguration;
+    @JsonProperty("aws")
+    public void setAwsConfiguration(HashMap<String, String> awsConfigurationMap) {
+        this.awsConfiguration.putAll(awsConfigurationMap);
     }
 
-    public Map<String, String> getChefConfiguration() {
+    public Properties getChefConfiguration() {
         return chefConfiguration;
     }
 
-    public void setChefConfiguration(Map<String, String> chefConfiguration) {
-        this.chefConfiguration = chefConfiguration;
+    @JsonProperty("chef")
+    public void setChefConfiguration(HashMap<String, String> chefConfigurationMap) {
+        this.chefConfiguration.putAll(chefConfigurationMap);
     }
 
-    public Map<String, String> getMaxBids() {
+    public Properties getMaxBids() {
         return maxBids;
     }
 
-    public void setMaxBids(Map<String, String> maxBids) {
-        this.maxBids = maxBids;
+    @JsonProperty("max_bids")
+    public void setMaxBids(HashMap<String, String> maxBidsMap) {
+        this.maxBids.putAll(maxBidsMap);
+    }
+
+    public Properties getExecutorsConfiguration() {
+        return executorsConfiguration;
+    }
+
+    @JsonProperty("executors")
+    public void setExecutorsConfiguration(HashMap<String, String> executorsConfigurationMap) {
+        this.executorsConfiguration.putAll(executorsConfigurationMap);
     }
 }

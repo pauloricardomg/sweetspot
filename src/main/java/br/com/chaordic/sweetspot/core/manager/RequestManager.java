@@ -2,6 +2,7 @@ package br.com.chaordic.sweetspot.core.manager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import br.com.chaordic.sweetspot.core.exception.RequestExistsException;
@@ -13,12 +14,12 @@ import com.google.common.base.Optional;
 
 public class RequestManager {
 
-    private static Double DEFAULT_PRICE = 0.1;
+    private static String DEFAULT_PRICE = "0.1";
 
     private final Map<String, SweetSpotRequest> requestMap;
-    private final Map<String, String> maxBids;
+    private final Properties maxBids;
 
-    public RequestManager(Map<String, String> maxBids) {
+    public RequestManager(Properties maxBids) {
         this.requestMap = new HashMap<>();
         this.maxBids = maxBids;
     }
@@ -47,8 +48,7 @@ public class RequestManager {
     }
 
     private Double getMaxBid(String instanceType) {
-        String defaultInstancePrice = maxBids.get(instanceType);
-        return defaultInstancePrice == null? DEFAULT_PRICE : Double.valueOf(defaultInstancePrice);
+        return Double.valueOf(maxBids.getProperty(instanceType, DEFAULT_PRICE));
     }
 
     public Set<String> getRequestIds() {
