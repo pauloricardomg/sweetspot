@@ -13,34 +13,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dropwizard.version>0.7.0</dropwizard.version>
-    <jclouds.version>1.7.2</jclouds.version>
+    <jclouds.version>1.8.0</jclouds.version>
   </properties>
 
   <dependencies>
-      <dependency>
-          <groupId>io.dropwizard</groupId>
-          <artifactId>dropwizard-core</artifactId>
-          <version>${dropwizard.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jclouds.provider</groupId>
-        <artifactId>aws-ec2</artifactId>
-        <version>1.1.0</version>
-      </dependency>
     <dependency>
       <groupId>org.apache.jclouds</groupId>
       <artifactId>jclouds-compute</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.api</groupId>
-      <artifactId>chef</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds</groupId>
-      <artifactId>jclouds-allcompute</artifactId>
       <version>${jclouds.version}</version>
     </dependency>
     <dependency>
@@ -53,11 +32,16 @@
       <artifactId>jclouds-enterprise</artifactId>
       <version>${jclouds.version}</version>
     </dependency>
-    <!--dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.0.0</version>
-    </dependency-->
+    <dependency>
+      <groupId>org.apache.jclouds.provider</groupId>
+      <artifactId>aws-ec2</artifactId>
+      <version>${jclouds.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.dropwizard</groupId>
+        <artifactId>dropwizard-core</artifactId>
+        <version>${dropwizard.version}</version>
+    </dependency>
   </dependencies>
 
    <build>
