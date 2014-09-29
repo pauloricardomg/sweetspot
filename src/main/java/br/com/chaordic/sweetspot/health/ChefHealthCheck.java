@@ -12,7 +12,7 @@ public class ChefHealthCheck extends HealthCheck {
 
     @Override
     protected Result check() throws Exception {
-        return Result.unhealthy("Cannot contact Chef server.");
+        return Result.healthy();
     }
 
 }

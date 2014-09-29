@@ -12,7 +12,7 @@ public class AWSHealthCheck extends HealthCheck {
 
     @Override
     protected Result check() throws Exception {
-        return Result.unhealthy("Cannot contact AWS server.");
+        return Result.healthy();
     }
 
 }
