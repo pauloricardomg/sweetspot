@@ -10,6 +10,8 @@ import br.com.chaordic.sweetspot.health.AWSHealthCheck;
 import br.com.chaordic.sweetspot.health.ChefHealthCheck;
 import br.com.chaordic.sweetspot.resources.RequestsResource;
 
+import com.codahale.metrics.servlets.MetricsServlet;
+
 public class SweetSpotApplication extends Application<SweetSpotConfiguration> {
     public static void main(String[] args) throws Exception {
         new SweetSpotApplication().run(args);
@@ -28,16 +30,18 @@ public class SweetSpotApplication extends Application<SweetSpotConfiguration> {
     @Override
     public void run(SweetSpotConfiguration conf, Environment env) {
         /* Managers */
-        AWSManager awsManager = new AWSManager(conf.getAwsConfiguration());
-        ChefManager chefManager = new ChefManager(conf.getChefConfiguration());
-        RequestManager requestManager = new RequestManager(conf.getMaxBids());
+        AWSManager awsManager = new AWSManager(env.lifecycle(), conf.getAwsConfiguration());
+        ChefManager chefManager = new ChefManager(env.lifecycle(), conf.getChefConfiguration());
+        RequestManager requestManager = new RequestManager(awsManager, conf.getMaxBids());
 
         /* Health Checks */
         env.healthChecks().register("aws", new AWSHealthCheck(awsManager));
         env.healthChecks().register("chef", new ChefHealthCheck(chefManager));
 
+        /* Servlets */
+        env.servlets().addServlet("metrics-servlet", new MetricsServlet(env.metrics())).addMapping("/metrics");
+
         /* Resources */
         env.jersey().register(new RequestsResource(requestManager));
     }
-
 }

@@ -19,9 +19,12 @@ public class RequestManager {
     private final Map<String, SweetSpotRequest> requestMap;
     private final Properties maxBids;
 
-    public RequestManager(Properties maxBids) {
+    private AWSManager awsManager;
+
+    public RequestManager(AWSManager awsManager, Properties maxBids) {
         this.requestMap = new HashMap<>();
         this.maxBids = maxBids;
+        this.awsManager = awsManager;
     }
 
     public synchronized void create(CreateRequest request) throws RequestExistsException {
@@ -35,7 +38,12 @@ public class RequestManager {
                                                         request.getInstanceType(),
                                                         getMaxBid(request.getInstanceType()),
                                                         request.getInstanceNamePrefix(),
-                                                        request.getInstanceTags());
+                                                        request.getInstanceTags(),
+                                                        request.getAmi(),
+                                                        request.getZone(),
+                                                        request.getGroup(),
+                                                        request.getBlockDeviceMappings());
+        awsManager.register(sweetReq);
         requestMap.put(request.getId(), sweetReq);
     }
 
@@ -47,8 +55,8 @@ public class RequestManager {
         return Optional.of(request.getInfo());
     }
 
-    private Double getMaxBid(String instanceType) {
-        return Double.valueOf(maxBids.getProperty(instanceType, DEFAULT_PRICE));
+    private Float getMaxBid(String instanceType) {
+        return Float.valueOf(maxBids.getProperty(instanceType, DEFAULT_PRICE));
     }
 
     public Set<String> getRequestIds() {

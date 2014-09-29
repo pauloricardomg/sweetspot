@@ -1,5 +1,5 @@
 package br.com.chaordic.sweetspot.core.pojo;
 
 public enum RequestStatus {
-    OPEN
+    OPEN, INVALID, ACTIVE, WAITING_SPOTS, SPOT_REQUEST_FAILED
 }

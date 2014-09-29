@@ -5,11 +5,18 @@ import io.dropwizard.Configuration;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import br.com.chaordic.sweetspot.core.configuration.AWSConfiguration;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SweetSpotConfiguration extends Configuration {
 
-    private Properties awsConfiguration = new Properties();
+    @Valid
+    @NotNull
+    private AWSConfiguration awsConfiguration;
 
     private Properties chefConfiguration = new Properties();
 
@@ -17,13 +24,13 @@ public class SweetSpotConfiguration extends Configuration {
 
     private Properties executorsConfiguration = new Properties();
 
-    public Properties getAwsConfiguration() {
+    public AWSConfiguration getAwsConfiguration() {
         return awsConfiguration;
     }
 
     @JsonProperty("aws")
-    public void setAwsConfiguration(HashMap<String, String> awsConfigurationMap) {
-        this.awsConfiguration.putAll(awsConfigurationMap);
+    public void setAwsConfiguration(AWSConfiguration awsConfiguration) {
+        this.awsConfiguration = awsConfiguration;
     }
 
     public Properties getChefConfiguration() {

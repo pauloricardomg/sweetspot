@@ -1,13 +1,25 @@
 aws:
-  access_key: <aws_access_key>
-  secret_key: <aws_secret_key>
+  accessKey: <aws_access_key>
+  secretKey: <aws_secret_key>
+  sshPublicKeyFile: <ssh_public_key_file>
+  maxExecutorThreads: 50
 
 chef:
   endpoint: <chef_endpoint>
   client: <chef_client>
   validator: <chef_validator>
+  executor.maxThreads: 50
 
 max_bids:
   m1.small: 0.1
   c1.xlarge: 0.7
   m1.xlarge: 0.9
+
+logging:
+  level: INFO
+  loggers:
+    io.dropwizard: INFO
+    br.com.chaordic: INFO
+    jclouds.compute: DEBUG
+  appenders:
+    - type: console 
