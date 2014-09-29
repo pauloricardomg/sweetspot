@@ -12,17 +12,29 @@ opts = Trollop::options do
     opt :numInstances, "Number of instances", :type => :int, :default => 1
     opt :instanceType, "Instance type", :type => :string
     opt :instanceNamePrefix, "Instance name prefix (default: <id>)", :type => :string 
-    opt :instanceTags, "Instance tags (list of <key> <value> separated by space)", :type => :strings
+    opt :group, "Security group", :type => :string 
+    opt :ami, "AMI to bootstrap instance", :type => :string, :default => 'ami-f2fe4a9a' 
+    opt :zone, "Availability Zone", :type => :string, :default => 'us-east-1c'
+    opt :instanceTags, "Instance tags (list of <key> <value> pairs separated by space)", :type => :strings, :default => ["team", "platform", "env", "dev"]
+    opt :blockDeviceMappings, "Instance block device mappings (list of <key> <value> pairs separated by space)", :type => :strings
 end
 Trollop::die "--id option is mandatory" if not opts[:id]
 Trollop::die "--instanceType option is mandatory" if not opts[:instanceType]
+Trollop::die "--group option is mandatory" if not opts[:group]
+
 
 body = {
   :id => opts[:id],
   :numInstances => opts[:numInstances],
   :instanceType => opts[:instanceType],
-  :instanceNamePrefix => opts[:instanceNamePrefix].nil? ? opts[:id] : opts[:instanceNamePrefix],
-  :instanceTags => {}
+  :instanceNamePrefix => opts[:instanceNamePrefix].nil? ? 
+                              opts[:id] : opts[:instanceNamePrefix],
+  :instanceTags => Hash[*opts[:instanceTags].flatten],
+  :ami => opts[:ami],
+  :group => opts[:group],
+  :zone => opts[:zone],
+  :blockDeviceMappings => opts[:blockDeviceMappings].nil? ?
+                       nil : Hash[*opts[:blockDeviceMappings].flatten] 
 }
 
 resp = Api.new.post(BASE_URL, body.to_json)
