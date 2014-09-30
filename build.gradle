@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'application'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+    }
+}
+
+
+group = 'br.com.chaordic'
+version = '0.1-SNAPSHOT'
+description = """sweetspot"""
+
+repositories {
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+   
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+  
+
+project.ext {
+    dropwizardVersion = '0.7.1'
+    jcloudsVersion = '1.8.0'
+}
+
+dependencies {
+    compile (
+        'org.apache.jclouds:jclouds-compute:' + jcloudsVersion,
+        'org.apache.jclouds.driver:jclouds-sshj:' + jcloudsVersion,
+        'org.apache.jclouds.driver:jclouds-enterprise:' + jcloudsVersion,
+        'org.apache.jclouds.provider:aws-ec2:' + jcloudsVersion,
+        'io.dropwizard:dropwizard-core:' + dropwizardVersion,
+    )
+
+    testCompile (
+        'junit:junit:4.11',
+        'org.mockito:mockito-core:1.9.5',
+    )
+}
+
+mainClassName = 'br.com.chaordic.sweetspot.SweetSpotApplication'
+task oneJar(type: OneJar) {
+    mainClass = mainClassName
+}
+
+run {
+    args 'server', 'sweetspot.yml'
+}
